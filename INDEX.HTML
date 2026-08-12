@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InnovaSoft | ERP Especializado para Gamarra - Prueba 15 Días Gratis</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #002e6e, #029d67);
+            --brand-blue: #002868;
+            --brand-blue-title: #0040a8;
+            --brand-cian: #029d67;
+            --cta-orange: #f58242;
+            --bg-light: #ffffff;
+            --bg-dark: #001a40;
+            --text-dark: #1e293b;
+            --text-light: #ffffff;
+            --border-radius: 16px;
+            --shadow-soft: 0 6px 20px rgba(0, 0, 0, 0.08);
+            --shadow-strong: 0 12px 30px rgba(0, 0, 0, 0.15);
+            --font-family-headings: 'Montserrat', sans-serif;
+            --font-family-base: 'Open Sans', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: var(--font-family-base);
+            background-color: #111827;
+            color: var(--text-dark);
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+        h1, h2, h3, h4 {
+            font-family: var(--font-family-headings);
+            font-weight: 700;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+        ul {
+            list-style: none;
+        }
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* --- SLIDER DE FONDO GLOBAL --- */
+        .global-bg-slider {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            background-color: #050b14;
+            overflow: hidden;
+        }
+        .global-bg-slider .bg-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
+        }
+        .global-bg-slider .bg-slide.active {
+            opacity: 0.2;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 14px 30px;
+            border-radius: 50px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
+            border: none;
+            text-align: center;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-strong);
+        }
+        .btn-cta {
+            background-color: var(--cta-orange);
+            color: var(--text-light);
+            text-transform: uppercase;
+            font-size: 1rem;
+        }
+        .btn-primary {
+            background-color: var(--brand-blue);
+            color: var(--text-light);
+        }
+        .btn-primary:hover {
+            background-color: var(--brand-cian);
+        }
+
+        /* --- CONTENEDORES DE SECCIÓN --- */
+        .section-wrapper {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 40px 20px;
+            background: rgba(255, 255, 255, 0.88);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-strong);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+        }
+
+        h2 {
+            font-size: 2.2rem;
+            color: var(--brand-blue-title);
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+        }
+
+        /* --- CABECERA Y LOGO ARRIBA A LA IZQUIERDA --- */
+        header {
+            background-color: rgba(255, 255, 255, 0.96);
+            padding: 12px 20px;
+            box-shadow: var(--shadow-soft);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            backdrop-filter: blur(8px);
+        }
+        header .logo {
+            display: flex;
+            align-items: center;
+        }
+        header .logo img {
+            height: 42px; /* Tamaño ajustado para móvil */
+            width: auto;
+            object-fit: contain;
+        }
+        
+        .nav-toggle {
+            display: block;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: var(--brand-blue);
+        }
+        .nav-menu {
+            position: fixed;
+            top: 65px;
+            left: 0;
+            width: 100%;
+            background-color: var(--text-light);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.05);
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        .nav-menu.active {
+            max-height: 400px;
+        }
+        .nav-menu ul {
+            text-align: center;
+            width: 100%;
+        }
+        .nav-menu li {
+            margin-bottom: 15px;
+        }
+        .nav-menu a {
+            font-weight: 600;
+            color: var(--brand-blue);
+        }
+        
+        .header-actions {
+            display: none;
+        }
+
+        /* --- HERO --- */
+        #hero {
+            text-align: center;
+            padding: 20px 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        #hero .hero-text {
+            max-width: 850px;
+            margin: 0 auto;
+        }
+        #hero h1 {
+            font-size: 2.3rem;
+            color: var(--brand-blue-title);
+            line-height: 1.25;
+            margin-bottom: 20px;
+            font-weight: 800;
+        }
+        #hero h1 span {
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        #hero p {
+            font-size: 1.1rem;
+            color: #334155;
+            margin-bottom: 25px;
+            max-width: 700px;
+            font-weight: 600;
+        }
+
+        /* --- DEMO WIDGETS --- */
+        .demo-widgets {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+        .widget {
+            background-color: #ffffff;
+            padding: 25px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-soft);
+            text-align: center;
+            border: 1px solid #e2e8f0;
+        }
+        .widget h4 {
+            color: var(--brand-blue);
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+        .animated-placeholder {
+            height: 90px;
+            border-radius: var(--border-radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--brand-cian);
+            border: 2px dashed var(--brand-cian);
+            position: relative;
+            overflow: hidden;
+            background-color: #f8fafc;
+        }
+        .animated-placeholder::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+            animation: loading 1.5s infinite;
+        }
+        @keyframes loading {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .inventory-matrix {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 4px;
+            text-align: center;
+            font-size: 0.8rem;
+        }
+        .matrix-cell {
+            padding: 8px 4px;
+            background-color: #f1f5f9;
+            border-radius: 4px;
+            color: #334155;
+        }
+        .matrix-header {
+            font-weight: 700;
+            background-color: var(--brand-blue);
+            color: var(--text-light);
+        }
+
+        .indicator-sunat {
+            color: var(--brand-cian);
+            font-size: 2.2rem;
+            font-weight: 800;
+            padding: 15px 0;
+        }
+
+        /* --- MÓDULOS --- */
+        .modules-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+        .module-card {
+            background-color: #ffffff;
+            padding: 30px 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-soft);
+            text-align: center;
+            border: 1px solid #e2e8f0;
+            border-bottom: 4px solid var(--brand-cian);
+        }
+        .module-card i {
+            font-size: 2.5rem;
+            color: var(--brand-blue);
+            margin-bottom: 15px;
+        }
+        .module-card h3 {
+            color: var(--brand-blue);
+            margin-bottom: 10px;
+        }
+
+        /* --- LOCAL --- */
+        #local-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        #local-container img {
+            width: 100%;
+            max-width: 450px;
+            margin-top: 25px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-soft);
+        }
+
+        /* --- PRECIOS --- */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 25px;
+        }
+        .price-card {
+            background-color: #ffffff;
+            padding: 40px 25px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-soft);
+            text-align: center;
+            border: 2px solid #e2e8f0;
+            position: relative;
+        }
+        .price-card.recommended {
+            border-color: var(--brand-cian);
+            box-shadow: var(--shadow-strong);
+        }
+        .recommended-badge {
+            position: absolute;
+            top: -14px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--brand-cian);
+            color: var(--text-light);
+            padding: 4px 14px;
+            border-radius: 50px;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+        }
+        .price-card h3 {
+            font-size: 1.6rem;
+            color: var(--brand-blue);
+            margin-bottom: 10px;
+        }
+        .price-card .price {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--brand-cian);
+            margin-bottom: 20px;
+        }
+        .price-card .price span {
+            font-size: 1rem;
+            font-weight: 400;
+            color: #64748b;
+        }
+        .price-card ul {
+            text-align: left;
+            margin-bottom: 30px;
+        }
+        .price-card li {
+            margin-bottom: 12px;
+            color: #475569;
+            display: flex;
+            align-items: center;
+            font-size: 0.95rem;
+        }
+        .price-card li::before {
+            content: "\f00c";
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            color: var(--brand-cian);
+            margin-right: 12px;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            background-color: rgba(0, 26, 64, 0.96);
+            color: var(--text-light);
+            padding: 50px 20px 30px;
+            margin-top: 40px;
+        }
+        .footer-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .map-container {
+            height: 250px;
+            background-color: var(--text-light);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+        }
+        .map-container iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+        .contact-info {
+            text-align: center;
+        }
+        .contact-info h4 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: var(--text-light);
+        }
+        .contact-info p {
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #cbd5e1;
+        }
+        .contact-info i {
+            margin-right: 12px;
+            color: var(--brand-cian);
+        }
+        .social-links {
+            margin-top: 20px;
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+        .social-links a {
+            font-size: 1.8rem;
+            color: var(--text-light);
+        }
+        
+        .footer-form h4 {
+            margin-bottom: 20px;
+            color: var(--text-light);
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background-color: rgba(255, 255, 255, 0.08);
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+        input::placeholder {
+            color: #94a3b8;
+        }
+        
+        .whatsapp-float {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #25d366;
+            color: #fff;
+            border-radius: 50px;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            z-index: 1001;
+        }
+
+        /* --- VISTA ESCRITORIO (PC) --- */
+        @media (min-width: 768px) {
+            h2 { font-size: 2.6rem; }
+
+            header { 
+                padding: 15px 40px; 
+                display: grid;
+                grid-template-columns: auto 1fr auto;
+                gap: 20px;
+            }
+            header .logo img {
+                height: 52px; /* Logo más grande en pantallas de PC */
+            }
+            .nav-toggle { display: none; }
+            .nav-menu {
+                position: static;
+                width: auto;
+                background: none;
+                flex-direction: row;
+                box-shadow: none;
+                max-height: none;
+                padding: 0;
+            }
+            .nav-menu ul {
+                display: flex;
+                gap: 30px;
+                justify-content: center;
+            }
+            .nav-menu li { margin-bottom: 0; }
+            
+            .header-actions {
+                display: flex;
+                align-items: center;
+                gap: 15px;
+                justify-content: end;
+            }
+            .social-links-header {
+                display: flex;
+                gap: 15px;
+                margin-right: 15px;
+            }
+            .social-links-header a {
+                color: var(--brand-blue);
+                font-size: 1.3rem;
+            }
+
+            .section-wrapper {
+                padding: 50px;
+                margin: 40px auto;
+            }
+
+            #hero h1 { font-size: 3.2rem; }
+            #hero p { font-size: 1.25rem; }
+
+            .demo-widgets { grid-template-columns: repeat(3, 1fr); }
+            .modules-grid { grid-template-columns: repeat(2, 1fr); }
+
+            #local-container {
+                flex-direction: row;
+                text-align: left;
+                gap: 40px;
+            }
+            #local-container img { margin-top: 0; }
+
+            .pricing-grid { grid-template-columns: repeat(3, 1fr); }
+            .footer-content { grid-template-columns: repeat(3, 1fr); }
+            .contact-info { text-align: left; }
+            .contact-info p { justify-content: flex-start; }
+            .social-links { justify-content: flex-start; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- FONDO DE PÁGINA GLOBAL -->
+    <div class="global-bg-slider">
+        <div class="bg-slide active" style="background-image: url('https://images.unsplash.com/photo-1558769132-cb1aea458c5e?auto=format&fit=crop&w=1920&q=80');"></div>
+        <div class="bg-slide" style="background-image: url('https://images.unsplash.com/photo-1528698827591-e19ccd7bc23d?auto=format&fit=crop&w=1920&q=80');"></div>
+        <div class="bg-slide" style="background-image: url('https://images.unsplash.com/photo-1604014237800-1c9102c219da?auto=format&fit=crop&w=1920&q=80');"></div>
+    </div>
+
+    <!-- CABECERA CON LOGO NUEVO ARRIBA A LA IZQUIERDA -->
+    <header>
+        <a href="#" class="logo">
+            <img src="LOGO_NUEVO.PNG" alt="InnovaSoft Logo"> 
+        </a>
+        
+        <i class="fas fa-bars nav-toggle" id="nav-toggle"></i>
+
+        <nav class="nav-menu" id="nav-menu">
+            <ul>
+                <li><a href="#hero">Beneficios</a></li>
+                <li><a href="#demo">Demo</a></li>
+                <li><a href="#modules">Módulos</a></li>
+                <li><a href="#pricing">Precios</a></li>
+                <li><a href="#footer">Ubicación</a></li>
+            </ul>
+        </nav>
+
+        <div class="header-actions">
+            <div class="social-links-header">
+                <a href="https://www.tiktok.com/@innovasoftt?_r=1&_t=ZS-98nC6CVw3vO" target="_blank"><i class="fab fa-tiktok"></i></a>
+                <a href="https://www.instagram.com/innovasoft?igsh=MXZ5b3Q3aDFqczRwdQ==" target="_blank"><i class="fab fa-instagram"></i></a>
+            </div>
+            <a href="#pricing" class="btn btn-primary">Probar Gratis</a>
+        </div>
+    </header>
+
+    <main>
+        <!-- SECCIÓN 1: HERO -->
+        <div class="section-wrapper" id="hero">
+            <div class="hero-text">
+                <h1>Controla tu Taller en <span>Gamarra Moda</span> y Olvídate de las Multas de la <span>SUNAT</span>.</h1>
+                <p>El único ERP en la nube especializado para confecciones. Gestiona inventario por tallas y colores, emite Facturas y Guías de Remisión (GRE) en segundos desde tu celular o PC.</p>
+                <a href="#pricing" class="btn btn-cta">Iniciar Prueba Gratuita de 15 Días</a>
+            </div>
+        </div>
+
+        <!-- SECCIÓN 2: DEMO -->
+        <div class="section-wrapper" id="demo">
+            <h2>Datos Reales de Gamarra a un Clic</h2>
+            <div class="demo-widgets">
+                <div class="widget">
+                    <h4>Crecimiento de Ventas Diarias</h4>
+                    <div class="animated-placeholder">
+                        S/ 5,800.00 HOY
+                    </div>
+                </div>
+
+                <div class="widget">
+                    <h4>Matriz de Stock: Polo Oversize</h4>
+                    <div class="inventory-matrix">
+                        <div class="matrix-cell matrix-header">S</div>
+                        <div class="matrix-cell matrix-header">M</div>
+                        <div class="matrix-cell matrix-header">L</div>
+                        <div class="matrix-cell matrix-header">XL</div>
+                        <div class="matrix-cell">Rojo: 50</div>
+                        <div class="matrix-cell">Rojo: 120</div>
+                        <div class="matrix-cell">Rojo: 80</div>
+                        <div class="matrix-cell">Rojo: 30</div>
+                        <div class="matrix-cell">Azul: 30</div>
+                        <div class="matrix-cell">Azul: 90</div>
+                        <div class="matrix-cell">Azul: 60</div>
+                        <div class="matrix-cell">Azul: 10</div>
+                    </div>
+                </div>
+
+                <div class="widget">
+                    <h4>Indicador SUNAT / SIRE</h4>
+                    <div class="indicator-sunat">
+                        100% AL DÍA
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECCIÓN 3: MÓDULOS -->
+        <div class="section-wrapper" id="modules">
+            <h2>Módulos para Acelerar tu Crecimiento</h2>
+            <div class="modules-grid">
+                <div class="module-card">
+                    <i class="fas fa-layer-group"></i>
+                    <h3>Inventario Específico</h3>
+                    <p>Controla stock por Tallas (S, M, L, XL), Colores y mermas de telas.</p>
+                </div>
+
+                <div class="module-card">
+                    <i class="fas fa-tablet-alt"></i>
+                    <h3>POS para Stands</h3>
+                    <p>Atención rápida en stand. Sincronización inmediata de stock.</p>
+                </div>
+
+                <div class="module-card">
+                    <i class="fas fa-file-invoice-dollar"></i>
+                    <h3>SUNAT / GRE / SIRE</h3>
+                    <p>Facturación y Guías de Remisión Automáticas en segundos.</p>
+                </div>
+
+                <div class="module-card">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>Reportes Clave</h3>
+                    <p>Proyecciones y rentabilidad por modelo y stand.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECCIÓN 4: LOCAL -->
+        <div class="section-wrapper" id="local">
+            <div id="local-container">
+                <div class="local-text">
+                    <h2>Te Visitamos en Gamarra Moda</h2>
+                    <p style="color:#475569; font-size: 1.1rem;">¿Prefieres una explicación en persona? Te visitamos en tu galería de La Victoria para una demostración gratuita de 10 minutos.</p>
+                </div>
+                <img src="soporte_gamarra.jpg" alt="Equipo de Soporte InnovaSoft en Gamarra">
+            </div>
+        </div>
+
+        <!-- SECCIÓN 5: PRECIOS -->
+        <div class="section-wrapper" id="pricing">
+            <h2>Elige el Plan para tu Negocio</h2>
+            <div class="pricing-grid">
+                <div class="price-card">
+                    <h3>Emprendedor</h3>
+                    <div class="price">S/ 100<span>/mes</span></div>
+                    <ul>
+                        <li>Hasta 2 Usuarios</li>
+                        <li>Inventario Básico</li>
+                        <li>Facturación Ilimitada</li>
+                    </ul>
+                    <a href="#footer" class="btn btn-primary">Iniciar Prueba</a>
+                </div>
+
+                <div class="price-card recommended">
+                    <div class="recommended-badge">Recomendado</div>
+                    <h3>Gamarra Pro</h3>
+                    <div class="price">S/ 200<span>/mes</span></div>
+                    <ul>
+                        <li>Hasta 5 Usuarios</li>
+                        <li>Inventario Textil Avanzado</li>
+                        <li>Guías de Remisión (GRE)</li>
+                        <li>Punto de Venta (POS)</li>
+                    </ul>
+                    <a href="#footer" class="btn btn-cta">Iniciar Prueba</a>
+                </div>
+
+                <div class="price-card">
+                    <h3>Empresarial</h3>
+                    <div class="price">S/ 350<span>/mes</span></div>
+                    <ul>
+                        <li>Usuarios Ilimitados</li>
+                        <li>Múltiples Stands</li>
+                        <li>API de Integración</li>
+                    </ul>
+                    <a href="#footer" class="btn btn-primary">Iniciar Prueba</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer id="footer">
+        <div class="footer-content">
+            <div class="map-container">
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3901.621124238514!2d-77.0177708!3d-12.0658406!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9105c879970923ef%3A0x6335a96f13b94098!2sGamarra%20Moda!5e0!3m2!1ses!2spe!4v1714524147771!5m2!1ses!2spe" 
+                    allowfullscreen="" 
+                    loading="lazy">
+                </iframe>
+            </div>
+
+            <div class="contact-info">
+                <h4>InnovaSoft Gamarra Moda</h4>
+                <p><i class="fas fa-map-marker-alt"></i> Jr. Huánuco 1234, Gamarra</p>
+                <p><i class="fas fa-phone-alt"></i> +51 983 525 216</p>
+                <p><i class="fas fa-envelope"></i> soporte@innovasoft.pe</p>
+                
+                <div class="social-links">
+                    <a href="https://www.tiktok.com/@innovasoftt?_r=1&_t=ZS-98nC6CVw3vO" target="_blank"><i class="fab fa-tiktok"></i></a>
+                    <a href="https://www.instagram.com/innovasoft?igsh=MXZ5b3Q3aDFqczRwdQ==" target="_blank"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-form">
+                <h4>¿Deseas Asesoría Presencial?</h4>
+                <form>
+                    <div class="form-group">
+                        <input type="text" placeholder="Tu Nombre o Razón Social" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" placeholder="Nombre de tu Galería/Taller" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="tel" placeholder="Tu Número de Celular" required>
+                    </div>
+                    <button type="submit" class="btn btn-cta" style="width:100%;">Solicitar Visita</button>
+                </form>
+            </div>
+        </div>
+        <p style="text-align:center; margin-top:40px; font-size:0.85rem; color: #94a3b8;">© 2024 InnovaSoft. Soluciones Tech para Gamarra.</p>
+    </footer>
+
+    <a href="https://wa.me/51983525216?text=¡Hola%20InnovaSoft!%20Vengo%20de%20su%20página%20web%20y%20deseo%20solicitar%20mi%20prueba%20gratuita%20de%2015%20días%20para%20mi%20negocio%20en%20Gamarra." 
+       class="whatsapp-float" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <script>
+        // Menú Móvil
+        const navToggle = document.getElementById('nav-toggle');
+        const navMenu = document.getElementById('nav-menu');
+
+        navToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            navToggle.classList.toggle('fa-times');
+        });
+
+        const navLinks = document.querySelectorAll('.nav-menu a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                if (navMenu.classList.contains('active')) {
+                    navMenu.classList.remove('active');
+                    navToggle.classList.remove('fa-times');
+                }
+            });
+        });
+
+        // Alternancia del slider de fondo (10s)
+        const slides = document.querySelectorAll('.global-bg-slider .bg-slide');
+        let currentSlide = 0;
+
+        function nextSlide() {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (currentSlide + 1) % slides.length;
+            slides[currentSlide].classList.add('active');
+        }
+
+        setInterval(nextSlide, 10000);
+    </script>
+</body>
+</html>
